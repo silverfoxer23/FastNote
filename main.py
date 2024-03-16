@@ -5,21 +5,25 @@ import os
 import sys
 import ctypes
 import keyboard
-import tkinter as tk
 import subprocess
 
 # variables
-version = "0.2.0 ALPHA"
+version = "0.3.0 ALPHA"
+build = "16032403"
 appdata = os.environ['LOCALAPPDATA']+"\\HHAppdata\\Fastnote"
+notes_path = os.environ['USERPROFILE']+"\\Documents\\Fastnote"
 config_file = appdata+"\\config.txt"
-shortcut = 'alt + n'
-language = 'esp'
+shortcut = 'shift + alt + n'
+sc_open = 'shift + alt + o'
+sc_settings = 'shift + alt + s'
+language = 'eng'
+langfile = open("data\\lang\\"+language+".txt").readlines()
 
 # functions
 def msgbox(title, text):
     ctypes.windll.user32.MessageBoxW(0, text, title, 0)
 
-def restore_sett():
+def restore_settings():
     try:
         with open(config_file, 'w') as f:
             f.write('\n'.join(config)) 
@@ -30,46 +34,47 @@ def restore_sett():
 def first_run():
     subprocess.Popen(["pythonw", "winfolder\\first_run.pyw"])
 
-
 # config
 # * create appdata folder
 if not os.path.exists(appdata):
-    print("Creating folders...")
     os.mkdir(appdata)
+    os.mkdir(appdata+"\\backups")
+
+# * config data
+config = [
+    "Version: {0}_{1}".format(version, build),
+    "Keyboard: " + shortcut,
+    "Open shortcut: " + sc_open,
+    "Settings shortcut: " + sc_settings,
+    "Language: " + language,
+    "NotesPath: " + notes_path
+]
 
 # * create config file
 if not os.path.exists(config_file):
-    print("Creating config files...")
-    config = [
-        "Version:" + version,
-        "Keyboard:" + shortcut,
-        "Language:" + language
-    ]
-    restore_sett()
+    restore_settings()
     first_run()
 else:
-    with open(config_file, 'r') as f:
-        lines = f.readlines()
-    if len(lines) >= 2:  
-        shortcut = lines[1].strip().split(":")[1]
+    with open(config_file, 'r') as config_file_reader:
+        lines = config_file_reader.readlines()
+    if len(lines) == 6:
+        shortcut = lines[1].strip().split(": ")[1]
+        sc_open = lines[2].strip().split(": ")[1]
+        sc_settings = lines[3].strip().split(": ")[1]
+        language = lines[4].strip().split(": ")[1]
+        langfile = open("data\\lang\\"+language+".txt").readlines()
+        notes_path = lines[5].strip().split(": ")[1]
     else:
         msgbox("Error", "The configuration file is incomplete, configuration will be restored to default settings.")
         os.remove(config_file)
-        restore_sett()
+        restore_settings()
+
+# TODO RECOVERY SETTINGS
 
 # main
-print("Running...")
-first_run()
+print(langfile[1])
 
 while True:
     keyboard.wait(shortcut)
-    print(shortcut + ' detected!')
-
-    root = tk.Tk()
-    root.eval('tk::PlaceWindow . center')
-
-    message = tk.Label(root, text="Hello, World!")
-    message.pack()
-
-    root.iconbitmap("data\\src\\icon.ico")
-    root.mainloop()
+    print(shortcut + langfile[2])
+    subprocess.Popen(["pythonw", "winfolder\\note.pyw"])

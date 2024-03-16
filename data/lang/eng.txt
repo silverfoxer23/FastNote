@@ -1,0 +1,15 @@
+# horahenaripo
+Running...
+ detected!
+Welcome
+Python program to take quick notes using keyboard shortcuts!
+To start, use 
+ to open the floating window to create your first note.
+To open your notes use 
+, and 
+ to open the settings.
+Got it!
+New note
+Save
+Notice
+Note saved!

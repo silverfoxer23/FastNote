@@ -1,2 +1,15 @@
-# first_run
+# horahenaripo
+Ejecutando...
+ detectado!
 Bienvenido
+Programa hecho en Python para tomar notas rapidas usando un atajo del teclado!
+Para empezar, usa 
+ para abrir la ventana flotante para crear tu primera nota.
+Para abrir tus notas usa 
+, y 
+ para abrir los ajustes.
+Entendido
+Nueva nota
+Guardar
+Aviso
+Nota guardada exitosamente
