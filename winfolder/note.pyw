@@ -18,9 +18,6 @@ def on_text_change(event):
 
 with open(config_file, 'r') as config_file_reader:
     lines = config_file_reader.readlines()
-    shortcut = lines[1].strip().split(": ")[1]
-    sc_open = lines[2].strip().split(": ")[1]
-    sc_settings = lines[3].strip().split(": ")[1]
     language = lines[4].strip().split(": ")[1]
     langfile = open("data\\lang\\"+language+".txt").readlines()
     notes_path = lines[5].strip().split(": ")[1]
