@@ -8,8 +8,8 @@ import keyboard
 import subprocess
 
 # variables
-version = "0.4.0 ALPHA"
-build = "18032413"
+version = "0.5.0 ALPHA"
+build = "19032410"
 appdata = os.environ['LOCALAPPDATA']+"\\HHAppdata\\Fastnote"
 notes_path = os.environ['USERPROFILE']+"\\Documents\\Fastnote"
 config_file = appdata+"\\config.txt"
@@ -18,6 +18,7 @@ sc_open = 'shift + alt + o'
 sc_settings = 'shift + alt + s'
 language = 'eng'
 langfile = open("data\\lang\\"+language+".txt").readlines()
+pidmain = os.getpid()
 
 # functions
 def msgbox(title, text):
@@ -74,12 +75,10 @@ else:
 # main
 print(langfile[1])
 
-# TODO SEND PID TO CHECK RUNNIG
-
 index = 0
 y = ["open.py", "settings.py"]
 for x in [sc_open, sc_settings]:
-    command_run = [ "pythonw", "data\\sc_handler.pyw", x, y[index] ]
+    command_run = [ "pythonw", "data\\sc_handler.pyw", x, y[index], str(pidmain) ]
     subprocess.Popen(command_run, creationflags=subprocess.BELOW_NORMAL_PRIORITY_CLASS)
     index+=1
 
