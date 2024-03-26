@@ -8,8 +8,8 @@ import keyboard
 import subprocess
 
 # variables
-version = "0.5.0 ALPHA"
-build = "19032410"
+version = "0.6.0 ALPHA"
+build = "24032410"
 appdata = os.environ['LOCALAPPDATA']+"\\HHAppdata\\Fastnote"
 notes_path = os.environ['USERPROFILE']+"\\Documents\\Fastnote"
 config_file = appdata+"\\config.txt"
@@ -78,9 +78,11 @@ print(langfile[1])
 index = 0
 y = ["open.py", "settings.py"]
 for x in [sc_open, sc_settings]:
-    command_run = [ "pythonw", "data\\sc_handler.pyw", x, y[index], str(pidmain) ]
-    subprocess.Popen(command_run, creationflags=subprocess.BELOW_NORMAL_PRIORITY_CLASS)
+    # shortcut, file to open, pid
+    subprocess.Popen([ "python", "data\\sc_handler.pyw", x, y[index] ], creationflags=subprocess.BELOW_NORMAL_PRIORITY_CLASS)
     index+=1
+
+subprocess.Popen([ "python", "data\\kill_handler.pyw", str(pidmain) ], creationflags=subprocess.BELOW_NORMAL_PRIORITY_CLASS)
 
 while True:
     keyboard.wait(shortcut)
